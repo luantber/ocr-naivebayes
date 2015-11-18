@@ -9,10 +9,10 @@ r4 = np.zeros((20,20))
 r5 = np.zeros((20,20))
 
 r1 = cv2.rectangle(r1,(5,5),(15,15),1,-1)
-r2 = cv2.rectangle(r2,(7,7),(9,9),1,-1)
-r3 = cv2.rectangle(r3,(5,3),(7,7),1,-1)
-r4 = cv2.rectangle(r4,(11,11),(15,15),1,-1)
-r5 = cv2.rectangle(r5,(4,7),(11,11),1,-1)
+r2 = cv2.rectangle(r2,(5,5),(15,15),1,-1)
+r3 = cv2.rectangle(r3,(5,5),(15,15),1,-1)
+r4 = cv2.rectangle(r4,(5,5),(15,15),1,-1)
+r5 = cv2.rectangle(r5,(5,5),(15,15),1,-1)
 
 
 c1 = np.zeros((20,20))
@@ -64,9 +64,10 @@ def laplace(xl):
 	return xl + np.ones((20,20),dtype=np.uint8)
 	
 def normalizar(xn):
-	return 1/7 * xn
+	return 1/7.0 * xn
 
 #a = normalizar(laplace(contar1(x1)))
+#print a
 #b=  normalizar(laplace(contar0(x1)))
 
 #print normalizar(laplace(contar0(x1)))[100][100]
@@ -113,17 +114,16 @@ def fin(ev):
 	#print k
 	return  x
 
-'''
-#print ent
-'''
 
+ent = entrenar(x1,x2)
+print ent
 
 p = np.zeros((20,20))
-p = cv2.rectangle(p,(5,5),(15,15),1,-1)
+#p = cv2.rectangle(p,(5,5),(15,15),1,-1)
 
-#p = cv2.circle(p,(10,10),5,1,-1)
-
-'''cv2.imshow('p',p)
+p = cv2.circle(p,(10,10),5,1,-1)
+'''
+cv2.imshow('p',p)
 cv2.waitKey(0)
 cv2.destroyAllWindows() 
 '''
