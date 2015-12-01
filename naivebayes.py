@@ -8,11 +8,11 @@ r3 = np.zeros((20,20))
 r4 = np.zeros((20,20))
 r5 = np.zeros((20,20))
 
-r1 = cv2.rectangle(r1,(5,5),(15,15),1,-1)
-r2 = cv2.rectangle(r2,(5,5),(15,15),1,-1)
-r3 = cv2.rectangle(r3,(5,5),(15,15),1,-1)
-r4 = cv2.rectangle(r4,(5,5),(15,15),1,-1)
-r5 = cv2.rectangle(r5,(5,5),(15,15),1,-1)
+r1 = cv2.rectangle(r1,(6,5),(15,15),1,-1)
+r2 = cv2.rectangle(r2,(4,4),(15,15),1,-1)
+r3 = cv2.rectangle(r3,(5,5),(16,17),1,-1)
+r4 = cv2.rectangle(r4,(3,5),(15,15),1,-1)
+r5 = cv2.rectangle(r5,(4,5),(14,16),1,-1)
 
 
 c1 = np.zeros((20,20))
@@ -115,20 +115,27 @@ def fin(ev):
 	return  x
 
 
+#MAin
 ent = entrenar(x1,x2)
 print ent
 
 p = np.zeros((20,20))
-#p = cv2.rectangle(p,(5,5),(15,15),1,-1)
-
-p = cv2.circle(p,(10,10),5,1,-1)
+p = cv2.rectangle(p,(4,4),(16,16),1,-1)
+for i in range(0,len(p)):
+	p[10][i] = 0
+	p[11][i] = 0
+	p[12][i] = 0
+	p[i][10] = 0
+	p[i][11] = 0
+ 
+#p = cv2.circle(p,(10,10),5,1,-1)
 '''
 cv2.imshow('p',p)
 cv2.waitKey(0)
 cv2.destroyAllWindows() 
 '''
 ent = entrenar(x1,x2)
-print evaluarA(p,ent)
+#print evaluarA(p,ent)
 fina = fin(evaluarA(p,ent))
 finb = fin(evaluarB(p,ent))
 
@@ -144,3 +151,8 @@ pB = finb/evidencia
 
 print pA
 print pB
+
+if pA>pB :
+	print "Tipo A"
+else:
+	print "Tipo B"
