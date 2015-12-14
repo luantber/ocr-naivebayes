@@ -27,7 +27,7 @@ c3 = cv2.circle(c3,(10,10), 7 , 1 , -1)
 c4 = cv2.circle(c4,(10,10), 6 , 1 , -1)
 c5 = cv2.circle(c5,(10,10), 8 , 1 , -1)
 
-'''
+
 cv2.imshow('r1',r1)
 cv2.imshow('r2',r2)
 cv2.imshow('r3',r3)
@@ -45,7 +45,7 @@ print "__________________"
 print c2
 cv2.waitKey(0)
 cv2.destroyAllWindows() 
-'''
+
 x1 = [r1,r2,r3,r4,r5]
 x2 = [c1,c2,c3,c4,c5]
 
