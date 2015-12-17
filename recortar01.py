@@ -35,7 +35,7 @@ def binar(img,i=None,t=None):
 
 	return thresh
 
-def contmax(contours):
+#def contmax(contours):
 
 
 #Guarda Imagenes BInarias recortadas y normalizadas
@@ -52,19 +52,43 @@ def recortar(base,stra,strb,n,show=None): #Base="caritas", stra="feliz", strb="t
 		at = binar(ag)
 		bt = binar(bg)
 
-		gg, contours1, gg2 = cv2.findContours(at,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-		gg, contours2, gg2 = cv2.findContours(bt,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+		gg, contours1, gg2 = cv2.findContours(at,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+		gg, contours2, gg2 = cv2.findContours(bt,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
 
-		if show:
+		try:
+			cv2.drawContours (ag, contours1[len(contours1)-1],  -1, 0, 3)
+			x,y,w,h = cv2.boundingRect(contours1[len(contours1)-1])
+			
+		except :
 			cv2.drawContours (ag, contours1,  -1, 0, 3)
-			cv2.drawContours (bg, contours2, - 1, 0, 3)
-
-			cv2.imshow(stra+str(i),ag)
-			cv2.imshow(strb+str(i),bg)
+			x,y,w,h = cv2.boundingRect(contours1[0])
+			
+		af = a[y:y+h,x:x+w]
+		#img = cv2.rectangle(a,(x,y),(x+w,y+h),(0,255,0),2)
+		#cv2.imshow(strb+str(i)+"re",img)
+		cv2.imshow(strb+str(i)+"r",af)	
+		
+		try:
+			cv2.drawContours (bg, contours2[len(contours2)-1],  -1, 0, 3)
+			x,y,w,h = cv2.boundingRect(contours2[len(contours2)-1])
+			
+		except :
+			cv2.drawContours (bg, contours2,  -1, 0, 3)
+			x,y,w,h = cv2.boundingRect(contours2)
+		
+		
+		bf = b[y:y+h,x:x+w]
+		img = cv2.rectangle(bg,(x,y),(x+w,y+h),(0,255,0),2)
+		#cv2.imshow(strb+str(i)+"re",img)
+		#cv2.imshow(strb+str(i)+"r",bf)
 
 		
 
+		cv2.imwrite("listo-"+base+"/"+stra+"-"+str(i)+".jpg",af)
+		cv2.imwrite("listo-"+base+"/"+strb+"-"+str(i)+".jpg",bf)	
+				
 
-recortar("caritas","feliz","triste",5)
+
+recortar("caritas","feliz","triste",5,True)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
