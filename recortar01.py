@@ -66,7 +66,7 @@ def recortar(base,stra,strb,n,show=None): #Base="caritas", stra="feliz", strb="t
 		af = a[y:y+h,x:x+w]
 		#img = cv2.rectangle(a,(x,y),(x+w,y+h),(0,255,0),2)
 		#cv2.imshow(strb+str(i)+"re",img)
-		cv2.imshow(strb+str(i)+"r",af)	
+		#cv2.imshow(strb+str(i)+"r",af)	
 		
 		try:
 			cv2.drawContours (bg, contours2[len(contours2)-1],  -1, 0, 3)
@@ -82,7 +82,8 @@ def recortar(base,stra,strb,n,show=None): #Base="caritas", stra="feliz", strb="t
 		#cv2.imshow(strb+str(i)+"re",img)
 		#cv2.imshow(strb+str(i)+"r",bf)
 
-		
+		af = cv2.resize(af,(100, 100), interpolation = cv2.INTER_CUBIC)
+		bf = cv2.resize(bf,(100, 100), interpolation = cv2.INTER_CUBIC)
 
 		cv2.imwrite("listo-"+base+"/"+stra+"-"+str(i)+".jpg",af)
 		cv2.imwrite("listo-"+base+"/"+strb+"-"+str(i)+".jpg",bf)	
