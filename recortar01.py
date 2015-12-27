@@ -27,7 +27,7 @@ def binar(img,i=None,t=None):
 	kernel = np.ones((2,2),np.uint8)
 	erosion = cv2.erode(thresh,kernel,iterations = 2 )
 	#Dilata para aumentar el grososr (Mejora las caracteriticas)
-	dilation = cv2.dilate(erosion,kernel,iterations = 5)
+	dilation = cv2.dilate(erosion,kernel,iterations = 10)
 
 	#gradient = cv2.morphologyEx(img, cv2.MORPH_GRADIENT, kernel)
 	if i and t:
@@ -49,8 +49,8 @@ def recortar(base,stra,strb,n,show=None): #Base="caritas", stra="feliz", strb="t
 		bg = cv2.cvtColor(b,cv2.COLOR_BGR2GRAY)
 
 		#temporales binarios
-		at = binar(ag)
-		bt = binar(bg)
+		at = binar(ag,stra,str(i))
+		bt = binar(bg,strb,str(i))
 
 		gg, contours1, gg2 = cv2.findContours(at,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
 		gg, contours2, gg2 = cv2.findContours(bt,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
@@ -88,8 +88,32 @@ def recortar(base,stra,strb,n,show=None): #Base="caritas", stra="feliz", strb="t
 		cv2.imwrite("listo-"+base+"/"+stra+"-"+str(i)+".jpg",af)
 		cv2.imwrite("listo-"+base+"/"+strb+"-"+str(i)+".jpg",bf)	
 				
+def binarf(path,tipo,n):
+	image = cv2.imread(path)
+	#cv2.imshow(tipo+str(n),image)
+	ag = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+	at = binar(ag)
+	gg, contours1, gg2 = cv2.findContours(at,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+	try:
+		cv2.drawContours (ag, contours1[len(contours1)-1],  -1, 0, 3)
+		x,y,w,h = cv2.boundingRect(contours1[len(contours1)-1])
+		
+	except :
+		cv2.drawContours (ag, contours1,  -1, 0, 3)
+		x,y,w,h = cv2.boundingRect(contours1[0])
+		
+	af = image[y:y+h,x:x+w]
+	af = cv2.resize(af,(100, 100), interpolation = cv2.INTER_CUBIC)
+	path = "images/binar/"+tipo+"/"+tipo+str(n)+".jpg"
+	print "path  ", path
+
+	gris = cv2.cvtColor(af,cv2.COLOR_BGR2GRAY)
+	af = binar(gris)
+	cv2.imwrite(path,af)
 
 
-recortar("caritas","feliz","triste",5,True)
+#def binarf2(path,tipo,n):
+
+#recortar("caritas","feliz","triste",5,True)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
