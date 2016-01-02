@@ -231,7 +231,7 @@
     <property name="title">
      <string>Entrenamiento</string>
     </property>
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="btnTrain">
      <property name="geometry">
       <rect>
        <x>20</x>

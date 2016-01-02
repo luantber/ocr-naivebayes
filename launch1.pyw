@@ -6,7 +6,7 @@ from os import listdir,makedirs,rename,path
 import os
 import shutil
 import recortar01
-
+import clasificar
 
 class Ventana(QtGui.QMainWindow):
 	def __init__(self,parent = None ):
@@ -18,6 +18,7 @@ class Ventana(QtGui.QMainWindow):
 
 		QtCore.QObject.connect(self.ui.btnMuestra, QtCore.SIGNAL('clicked()'), self.addMuestra )
 		QtCore.QObject.connect(self.ui.refreshbtn, QtCore.SIGNAL('clicked()'), self.refresh )
+		QtCore.QObject.connect(self.ui.btnTrain, QtCore.SIGNAL('clicked()'), self.train )
 
 	def addMuestra(self):
 		tipo =  self.ui.lineEdit.text()
@@ -44,9 +45,11 @@ class Ventana(QtGui.QMainWindow):
 
 			j = 0
 			for i in files:
-				shutil.copy(str(fname) + "/" + i, rc)
-				rename(rc + "/" + i,rc + "/" + str(tipo) + "-"+str(j)+".jpg")
-				print (rc + "/" + i)
+				#shutil.copy(str(fname) + "/" + i, rc)
+				#print str(fname)
+				recortar01.recortar(str(fname)+"/"+i,str(tipo),j+100)
+				#rename(rc + "/" + i,rc + "/" + str(tipo) + "-"+str(j)+".jpg")
+				#print (rc + "/" + i)
 				j +=1
 
 		else:
@@ -68,10 +71,10 @@ class Ventana(QtGui.QMainWindow):
 		
 			j=0
 			for i in fname:
-				shutil.copy(str(i), rc)
-
-				rename(rc + "/" + (str(i).split("\\")[-1:][0]), rc + "/" + str(tipo) + "-"+str(j)+".jpg")
-				print (rc + "/" + i)
+				#print "..... " + str(fname)+"/"+str(i)
+				
+				recortar01.recortar(str(i),str(tipo),j+100)
+				##recortar01.recortar2(str(i),str(tipo),j+100)
 				j +=1
 
 		#Load files
@@ -115,10 +118,16 @@ class Ventana(QtGui.QMainWindow):
 				path = "images/origen/"+i+"/"+j
 				tipo = "binar-"+i.split("-")[1]
 
-				print "tipo"
+				#print "tipo"
 				#print path
 				recortar01.binarf(path,tipo,n)
 				n+=1
+
+
+	def train(self):
+		clasificar.entrenar()
+		print "Listo "
+
 
 app = QtGui.QApplication(sys.argv)
 myapp = Ventana()
