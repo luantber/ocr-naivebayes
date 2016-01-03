@@ -302,7 +302,7 @@
     <property name="title">
      <string>Clasificacion</string>
     </property>
-    <widget class="QPushButton" name="pushButton_5">
+    <widget class="QPushButton" name="btnAddFile">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -315,7 +315,7 @@
       <string>Añadir</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_2">
+    <widget class="QLineEdit" name="txtFile">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -368,7 +368,7 @@
       </widget>
      </widget>
     </widget>
-    <widget class="QPushButton" name="pushButton_6">
+    <widget class="QPushButton" name="btnClasificar">
      <property name="geometry">
       <rect>
        <x>170</x>

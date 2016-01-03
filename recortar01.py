@@ -90,25 +90,44 @@ def recortar(base,stra,strb,n,show=None): #Base="caritas", stra="feliz", strb="t
 		cv2.imwrite("listo-"+base+"/"+stra+"-"+str(i)+".jpg",af)
 		cv2.imwrite("listo-"+base+"/"+strb+"-"+str(i)+".jpg",bf)	
 
-def recortar2(path,tipo,n):
-	im = cv2.imread(path, 0)
+def recortar2(path):
+	a  = cv2.imread(path)
+	#cv2.imshow("a",a)
+	ag = cv2.cvtColor(a,cv2.COLOR_BGR2GRAY)
 
-	# Run findContours - Note the RETR_EXTERNAL flag
-	# Also, we want to find the best contour possible with CHAIN_APPROX_NONE
-	gg, contours, hierarchy = cv2.findContours(im.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+	#temporales binarios
+	at = binar(ag)
 
-	# Create an output of all zeroes that has the same shape as the input
-	# image
-	out = np.zeros_like(im)
+	#cv2.imshow("at",at)
+	gg, contours1, gg2 = cv2.findContours(at,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
 
-	# On this output, draw all of the contours that we have detected
-	# in white, and set the thickness to be 3 pixels
-	cv2.drawContours(out, contours, -1, 255, 3)
+	try:
+		#cv2.drawContours (ag, contours1[len(contours1)-1],  -1, (0,255,0), 3)
+		#cv2.drawContours (ag, contours1,  -1, (0,255,0), 3)
+		x,y,w,h = cv2.boundingRect(contours1[len(contours1)-1])
+		print "try1"
+		
+	except :
+		#cv2.drawContours (ag, contours1,  -1, 0, 3)
+		x,y,w,h = cv2.boundingRect(contours1[0])
+		print "try2"
+		
+	#cv2.imshow("a",a)
+	try:
+		af = a[y-3:y+h+3,x-3:x+w+3]
+		af = cv2.resize(af,(100, 100), interpolation = cv2.INTER_CUBIC)
+		print "tryy11"
 
-	# Spawn new windows that shows us the donut
-	# (in grayscale) and the detected contour
-	cv2.imshow('Donut', im) 
-	cv2.imshow('Output Contour', out)
+	except:
+		af = a[y-0:y+h+0,x-0:x+w+0]
+		af = cv2.resize(af,(100, 100), interpolation = cv2.INTER_CUBIC)
+		print "tryy22"
+
+	#cv2.imshow("lml",af)
+	cv2.imwrite("temp.jpg",af)
+	x = binar(cv2.imread("temp.jpg",0))
+	cv2.imwrite("temp2.jpg",x)
+	return x
 
 def recortar(path,tipo,n):
 		a  = cv2.imread(path)
