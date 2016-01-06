@@ -38,7 +38,7 @@ def binar(img,i=None,t=None):
 		cv2.imshow(str(t)+str(i),dilation)
 
 	#cv2.imshow("thresh",thresh)
-	return erosion
+	return dilation
 
 #def contmax(contours):
 

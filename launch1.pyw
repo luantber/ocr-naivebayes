@@ -143,9 +143,10 @@ class Ventana(QtGui.QMainWindow):
 	def clasificar(self):
 		path = str(self.ui.txtFile.text())
 		print path
-		res = clasificar.evaluar(path)
+		res,tipo = clasificar.evaluar(path)
 		pixmap = QPixmap(res)
 		self.ui.imBin.setPixmap(pixmap)
+		self.ui.clase.setText(tipo)
 		
 
 app = QtGui.QApplication(sys.argv)

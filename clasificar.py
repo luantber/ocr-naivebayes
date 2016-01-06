@@ -143,7 +143,7 @@ def evaluar(img):
 
 	ruta = "results/"+tipos[j]+"/nuevo.jpg"
 	cv2.imwrite(ruta,img)
-	return ruta
+	return ruta,tipos[j]
 #evaluar("C:/Users/Luis Antonio/Pictures/as/aTeKk5oyc.jpeg")
 #cv2.waitKey(0)
 #cv2.destroyAllWindows()
