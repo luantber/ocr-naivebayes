@@ -136,32 +136,6 @@
     <property name="title">
      <string>Muestras</string>
     </property>
-    <widget class="QProgressBar" name="progressBar">
-     <property name="geometry">
-      <rect>
-       <x>120</x>
-       <y>330</y>
-       <width>118</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="value">
-      <number>24</number>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_2">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>330</y>
-       <width>71</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Listo</string>
-     </property>
-    </widget>
     <widget class="QPushButton" name="refreshbtn">
      <property name="geometry">
       <rect>
@@ -339,24 +313,33 @@
      </property>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
-       <string>Tab 1</string>
+       <string>Imagen</string>
       </attribute>
-      <widget class="QGraphicsView" name="graphicsView">
+      <widget class="QLabel" name="imOri">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>10</x>
          <y>10</y>
-         <width>111</width>
-         <height>101</height>
+         <width>121</width>
+         <height>111</height>
         </rect>
+       </property>
+       <property name="autoFillBackground">
+        <bool>true</bool>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
        </property>
       </widget>
      </widget>
      <widget class="QWidget" name="tab_4">
       <attribute name="title">
-       <string>Tab 2</string>
+       <string>Binario</string>
       </attribute>
-      <widget class="QGraphicsView" name="graphicsView_2">
+      <widget class="QLabel" name="imBin">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -364,6 +347,12 @@
          <width>111</width>
          <height>101</height>
         </rect>
+       </property>
+       <property name="autoFillBackground">
+        <bool>true</bool>
+       </property>
+       <property name="text">
+        <string/>
        </property>
       </widget>
      </widget>
@@ -382,13 +371,13 @@
      </property>
     </widget>
    </widget>
-   <widget class="QTreeView" name="treeView_3">
+   <widget class="QGraphicsView" name="graphicsView">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>330</x>
       <y>400</y>
-      <width>256</width>
-      <height>111</height>
+      <width>181</width>
+      <height>121</height>
      </rect>
     </property>
    </widget>

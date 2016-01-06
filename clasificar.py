@@ -110,14 +110,13 @@ def fin(ev):
 	return  x
 
 def evaluar(img):
-	img = (recortar01.recortar2(img)/255)
-	#img = cv2.imread("images/binar/binar-a/binar-a1.jpg",0)/255
-	#en = entrenar()
+	img = recortar01.recortar2(img)
+	imgb = (img/255)
 	en = pickle.load(open("base","r"))
 		
 	temp = []
 	for i in range( len(en)):
-		temp.append(evals(img,en,i))
+		temp.append(evals(imgb,en,i))
 
 	res = []
 	for i in temp:
@@ -137,6 +136,14 @@ def evaluar(img):
 
 	print m, " pertenece ",tipos[j]
 
+	try:
+		os.makedirs("results/"+tipos[j])
+	except:
+		pass
+
+	ruta = "results/"+tipos[j]+"/nuevo.jpg"
+	cv2.imwrite(ruta,img)
+	return ruta
 #evaluar("C:/Users/Luis Antonio/Pictures/as/aTeKk5oyc.jpeg")
 #cv2.waitKey(0)
 #cv2.destroyAllWindows()

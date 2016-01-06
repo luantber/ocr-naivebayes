@@ -6,16 +6,20 @@ import numpy as np
 def binar(img,i=None,t=None):
 	#cv2.imshow(""+str(i),images[0][i])
 
+	ag = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+	equ = cv2.equalizeHist(ag)
 	'''
+
+
+	cv2.imshow("equ",equ)
+
 	clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
 	cl1 = clahe.apply(img)'''
 
-	#equ = cv2.equalizeHist(img)
-	#res = np.hstack((img,equ))
 
 	#Filtro Gaussiano para eliminar ruido
-	blur = cv2.GaussianBlur(img,(5,5),0)
-
+	blur = cv2.GaussianBlur(ag,(5,5),0)
+	cv2.imshow("blur",blur)
 	#Binarizacion Otsu (Valido con 2 picos en histograma)
 	#ret,thresh = cv2.threshold(blur,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU) 
 	#ret1,thresh = cv2.threshold(blur,127,255,cv2.THRESH_BINARY)
@@ -25,20 +29,20 @@ def binar(img,i=None,t=None):
 
 	#Erosion para borrar lineas delgadas (Posibles imperfecciones)
 	kernel = np.ones((2,2),np.uint8)
-	erosion = cv2.erode(thresh,kernel,iterations = 2 )
+	erosion = cv2.erode(thresh,kernel,iterations = 1 )
 	#Dilata para aumentar el grososr (Mejora las caracteriticas)
-	dilation = cv2.dilate(erosion,kernel,iterations = 10)
+	dilation = cv2.dilate(erosion,kernel,iterations = 2)
 
 	#gradient = cv2.morphologyEx(img, cv2.MORPH_GRADIENT, kernel)
 	if i and t:
 		cv2.imshow(str(t)+str(i),dilation)
 
-	#cv2.imshow("g",dilation)
-	return thresh
+	#cv2.imshow("thresh",thresh)
+	return erosion
 
 #def contmax(contours):
 
-
+"""
 #Guarda Imagenes BInarias recortadas y normalizadas
 def recortar(base,stra,strb,n,show=None): #Base="caritas", stra="feliz", strb="triste" , n = cantidad de muestras (Equiprobable)
 	for i in range(n):
@@ -89,28 +93,33 @@ def recortar(base,stra,strb,n,show=None): #Base="caritas", stra="feliz", strb="t
 
 		cv2.imwrite("listo-"+base+"/"+stra+"-"+str(i)+".jpg",af)
 		cv2.imwrite("listo-"+base+"/"+strb+"-"+str(i)+".jpg",bf)	
-
+"""
 def recortar2(path):
 	a  = cv2.imread(path)
+
+	#ag = cv2.cvtColor(a,cv2.COLOR_BGR2GRAY)
+	#equ = cv2.equalizeHist(ag)
+
+	#cv2.imshow("equ",equ)
+
 	#cv2.imshow("a",a)
-	ag = cv2.cvtColor(a,cv2.COLOR_BGR2GRAY)
 
 	#temporales binarios
-	at = binar(ag)
+	at = binar(a)
 
-	#cv2.imshow("at",at)
+	cv2.imshow("at",at)
 	gg, contours1, gg2 = cv2.findContours(at,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
 
 	try:
 		#cv2.drawContours (ag, contours1[len(contours1)-1],  -1, (0,255,0), 3)
 		#cv2.drawContours (ag, contours1,  -1, (0,255,0), 3)
 		x,y,w,h = cv2.boundingRect(contours1[len(contours1)-1])
-		print "try1"
+		print "try1 \n"
 		
 	except :
 		#cv2.drawContours (ag, contours1,  -1, 0, 3)
 		x,y,w,h = cv2.boundingRect(contours1[0])
-		print "try2"
+		print "   try2   "
 		
 	#cv2.imshow("a",a)
 	try:
@@ -123,58 +132,60 @@ def recortar2(path):
 		af = cv2.resize(af,(100, 100), interpolation = cv2.INTER_CUBIC)
 		print "tryy22"
 
-	#cv2.imshow("lml",af)
+	cv2.imshow("lml",af)
 	cv2.imwrite("temp.jpg",af)
-	x = binar(cv2.imread("temp.jpg",0))
+	x = binar(cv2.imread("temp.jpg"))
 	cv2.imwrite("temp2.jpg",x)
 	return x
 
 def recortar(path,tipo,n):
-		a  = cv2.imread(path)
+	print path
+	a  = cv2.imread(path,1)
 
-		ag = cv2.cvtColor(a,cv2.COLOR_BGR2GRAY)
+	#temporales binarios
+	at = binar(a)
+	#cv2.imshow("at",at)
+	gg, contours1, gg2 = cv2.findContours(at,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
 
-		#temporales binarios
-		at = binar(ag)
-		#cv2.imshow("at",at)
-		gg, contours1, gg2 = cv2.findContours(at,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
-
-		try:
-			cv2.drawContours (ag, contours1[len(contours1)-1],  -1, (0,255,0), 3)
-			#cv2.drawContours (ag, contours1,  -1, (0,255,0), 3)
-			x,y,w,h = cv2.boundingRect(contours1[len(contours1)-1])
-			print "try1"
-			
-		except :
-			cv2.drawContours (ag, contours1,  -1, 0, 3)
-			x,y,w,h = cv2.boundingRect(contours1[0])
-			print "try2"
-			
-				
-		try:
-			af = a[y-3:y+h+3,x-3:x+w+3]
-			af = cv2.resize(af,(100, 100), interpolation = cv2.INTER_CUBIC)
-
-		except:
-			af = a[y-0:y+h+0,x-0:x+w+0]
-			af = cv2.resize(af,(100, 100), interpolation = cv2.INTER_CUBIC)
-
-		#cv2.imshow("af",af)
-
-		#img = cv2.rectangle(a,(x,y),(x+w,y+h),(0,255,0),2)
-		#cv2.imshow("gg",img)
-
-
-		cv2.imshow(tipo+str(n),af)
+	try:
+		#cv2.drawContours (ag, contours1[len(contours1)-1],  -1, (0,255,0), 3)
+		#cv2.drawContours (ag, contours1,  -1, (0,255,0), 3)
+		x,y,w,h = cv2.boundingRect(contours1[len(contours1)-1])
+		print "try1  \n"
 		
-		cv2.imwrite("images/origen/origen-"+tipo+"/"+tipo+str(n)+".jpg",af)
+	except :
+		#cv2.drawContours (ag, contours1,  -1, 0, 3)
+		print "try2 .."
+		x,y,w,h = cv2.boundingRect(contours1[0])
+		print "try2"
+		
+			
+	try:
+		print "aqui1"
+		af = a[y-3:y+h+3,x-3:x+w+3]
+		af = cv2.resize(af,(100, 100), interpolation = cv2.INTER_CUBIC)
+
+	except:
+		print "aqui2"
+		af = a[y-0:y+h+0,x-0:x+w+0]
+		af = cv2.resize(af,(100, 100), interpolation = cv2.INTER_CUBIC)
+
+	#cv2.imshow("af",af)
+
+	#img = cv2.rectangle(a,(x,y),(x+w,y+h),(0,255,0),2)
+	#cv2.imshow("gg",img)
+
+
+	#cv2.imshow(tipo+str(n),af)
+	
+	cv2.imwrite("images/origen/origen-"+tipo+"/"+tipo+str(n)+".jpg",af)
 
 def binarf(path,tipo,n):
 	image = cv2.imread(path)
 	
-	gris = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+	#gris = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
 	#cv2.imshow("gr"+str(n),gris)
-	af = binar(gris)
+	af = binar(image)
 
 	
 	#cv2.imshow("af",af)

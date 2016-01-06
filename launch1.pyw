@@ -137,13 +137,16 @@ class Ventana(QtGui.QMainWindow):
 		cuadro.setFileMode(QFileDialog.ExistingFiles)
 		fname = cuadro.getOpenFileNames(self, 'Abrir Imagn',path.homePath(),"Imagenes (*.jpg)")
 		self.ui.txtFile.setText(fname[0])
+		pixmap = QPixmap(fname[0])
+		self.ui.imOri.setPixmap(pixmap)
 	
 	def clasificar(self):
 		path = str(self.ui.txtFile.text())
 		print path
-		clasificar.evaluar(path)
-
-
+		res = clasificar.evaluar(path)
+		pixmap = QPixmap(res)
+		self.ui.imBin.setPixmap(pixmap)
+		
 
 app = QtGui.QApplication(sys.argv)
 myapp = Ventana()
