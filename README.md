@@ -9,4 +9,7 @@ Este software esta programado en Python, usando la librería OpenCV para el proc
 
 El programa recibe muestras de imágenes que el usuario debe asignar a un tipo; despues con un algoritmo se realiza el aprendizaje y con esto el programa sera capaz de reconocer nuevas muestras.
 
-Fue probado con imagenes de letras, y simulamos un proceso industrial con botellas verificando su contenido con mucho exito
+Fue probado con imagenes de letras, y simulamos un proceso industrial con botellas verificando su contenido con mucho exito.
+
+ Aquí las Slides de mi Presentación
+ https://drive.google.com/file/d/0ByAQrP2US-YKZ3NQTE1TN0tyeUE/view?usp=sharing
