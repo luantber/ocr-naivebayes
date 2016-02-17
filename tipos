@@ -1,10 +1,8 @@
 (lp0
-S'binar-lleno'
+S'binar-menos2'
 p1
-aS'binar-menos2'
-p2
 aS'binar-normal'
-p3
+p2
 aS'binar-torcido'
-p4
+p3
 a.
